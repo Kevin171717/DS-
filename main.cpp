@@ -1,4 +1,4 @@
-// 11127116 ����E 11127147���f�� 
+// 11127147 黃柏竣 11127116 曾詮淳
 #include <iostream>     // cout, endl
 #include <fstream>      // open, is open
 #include <string>       // string
@@ -231,10 +231,12 @@ public:
 }; // end Simulation
 
 int main() {
-
+    int core ;
     int cmd = 1;
+    string corenum ;
     string fileName;
     while ( cmd != 0 ) {
+        core = 1 ;
         JobList aJobList; // job list
         // UI
         cout << endl << "**** Simulate FIFO Queues by SQF *****";
@@ -264,7 +266,7 @@ int main() {
                 cin >> fileName;
             }
             if ( aJobList.getAll( cmd, fileName) ) {
-                Simulation aSim = Simulation(aJobList, 1);
+                Simulation aSim = Simulation(aJobList, core);
                 aSim.SQF();
                 aSim.answers.putAll(fileName, cmd);
             } // if
@@ -273,9 +275,13 @@ int main() {
             if ( fileName.empty() ) {
                 cout << endl << "input file name : " ;
                 cin >> fileName;
+                cout << endl << "HOW many core : ?" ;
+                cin >> core;
+
+
             }
             if ( aJobList.getAll( cmd, fileName) ) {
-                Simulation aSim = Simulation(aJobList, 2);
+                Simulation aSim = Simulation(aJobList, core);
                 aSim.SQF();
                 aSim.answers.putAll(fileName, cmd);
             } // if
@@ -322,7 +328,7 @@ void JobList::putAll( string fileName ) {
 
     newFile.close() ;
     clock_t stop = clock(); // start reading
-    writeTime = static_cast<double>(stop - start) / (CLOCKS_PER_SEC / 1000.0); // compute writing time
+    writeTime = static_cast<double>(stop - start); // / (CLOCKS_PER_SEC / 1000.0); // compute writing time
     showTime() ;
     cout << endl << "See " << fileName << endl ;
 
@@ -392,7 +398,7 @@ void JobList:: sortByArrival() {
         }
     }
     clock_t stop = clock(); // stop reading
-    sortTime = static_cast<double>(stop - start) / (CLOCKS_PER_SEC / 1000.0);
+    sortTime = static_cast<double>(stop - start);// / (CLOCKS_PER_SEC / 1000.0);
 }
 
 bool JobList:: getAll( int command, string fileName ){
@@ -417,7 +423,7 @@ bool JobList:: getAll( int command, string fileName ){
     }
     file.close();
     clock_t stop = clock(); // stop reading
-    readTime = static_cast<double>(stop - start) / (CLOCKS_PER_SEC / 1000.0);
+    readTime = static_cast<double>(stop - start); // / (CLOCKS_PER_SEC / 1000.0);
     return true;
 
 }
@@ -697,7 +703,7 @@ void Simulation::addEvent( vector<Event> &eventList, int CID, bool in, jobType j
         if ( eventList[i].dotime > temp.dotime ) {
             eventList.insert( eventList.begin() + i, temp ) ;
             return ;
-        } //
+        } // if
         else if ( eventList[i].dotime == temp.dotime && eventList[i].CID > CID ) {
             eventList.insert( eventList.begin() + i, temp );
             return;

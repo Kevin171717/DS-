@@ -388,7 +388,7 @@ void merge(vector<jobType>& alist, int l, int m, int r) {
     int j = 0;  // Initial index of second subarray
     int k = l;  // Initial index of merged subarray
     while (i < n1 && j < n2) {
-        if (L[i].arrival <= R[j].arrival || (L[i].arrival == R[j].arrival && L[i].OID <= R[j].OID)) {
+        if (L[i].arrival < R[j].arrival || (L[i].arrival == R[j].arrival && L[i].OID <= R[j].OID)) {
             alist[k] = L[i];
             i++;
         } else {

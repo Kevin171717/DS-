@@ -1,4 +1,4 @@
-// 11127116 ´¿¸à²E 11127147¶À¬fµ¤
+// 11127116 ï¿½ï¿½ï¿½ï¿½E 11127147ï¿½ï¿½ï¿½fï¿½ï¿½ 
 #include <iostream>     // cout, endl
 #include <fstream>      // open, is open
 #include <string>       // string
@@ -367,33 +367,77 @@ void JobList::nextJob( jobType & data ) {
 } // void JobList::nextJob( jobType & data )
 
 
-void JobList:: sortByArrival() {
+// Merge two subarrays of alist[].
+// First subarray is alist[l..m]
+// Second subarray is alist[m+1..r]
+void merge(vector<jobType>& alist, int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temporary arrays
+    vector<jobType> L(n1), R(n2);
+
+    // Copy data to temporary arrays L[] and R[]
+    for (int i = 0; i < n1; i++)
+        L[i] = alist[l + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = alist[m + 1 + j];
+
+    // Merge the temporary arrays back into alist[l..r]
+    int i = 0;  // Initial index of first subarray
+    int j = 0;  // Initial index of second subarray
+    int k = l;  // Initial index of merged subarray
+    while (i < n1 && j < n2) {
+        if (L[i].arrival < R[j].arrival || (L[i].arrival == R[j].arrival && L[i].OID <= R[j].OID)) {
+            alist[k] = L[i];
+            i++;
+        } else {
+            alist[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1) {
+        alist[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2) {
+        alist[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+// Main function to perform merge sort on alist[l..r]
+void mergeSort(vector<jobType>& alist, int l, int r) {
+    if (l < r) {
+        // Same as (l+r)/2, but avoids overflow for large l and r
+        int m = l + (r - l) / 2;
+
+        // Sort first and second halves
+        mergeSort(alist, l, m);
+        mergeSort(alist, m + 1, r);
+
+        // Merge the sorted halves
+        merge(alist, l, m, r);
+    }
+}
+
+void JobList::sortByArrival() {
     // ***
-    // Perform Shell Sort
+    // Perform Merge Sort
     // ***
     clock_t start = clock(); // start reading
-    for (int h = alist.size() / 2; h > 0; h /= 2) {
-        for (int unsorted = h; unsorted < alist.size(); unsorted++) {
-            int loc = unsorted;
-            jobType temp;
-            temp = alist[unsorted];
-
-            int nextArrival = alist[unsorted].arrival;
-            int nextID = alist[unsorted].OID;
-
-            while (loc >= h && (alist[loc - h].arrival > nextArrival || (alist[loc - h].arrival == nextArrival && alist[loc - h].OID > nextID))) {
-                // Swap elements
-                alist[loc] = alist[loc - h];
-                loc = loc - h;
-            }
-
-            alist[loc] = temp;
-            // You need to copy other attributes as well if necessary
-        }
-    }
+    mergeSort(alist, 0, alist.size() - 1);
     clock_t stop = clock(); // stop reading
     sortTime = static_cast<double>(stop - start) / (CLOCKS_PER_SEC / 1000.0);
 }
+
 
 bool JobList:: getAll( int command, string fileName ){
     if ( command == 1 )
@@ -697,7 +741,7 @@ void Simulation::addEvent( vector<Event> &eventList, int CID, bool in, jobType j
         if ( eventList[i].dotime > temp.dotime ) {
             eventList.insert( eventList.begin() + i, temp ) ;
             return ;
-        } // if
+        } //
         else if ( eventList[i].dotime == temp.dotime && eventList[i].CID > CID ) {
             eventList.insert( eventList.begin() + i, temp );
             return;

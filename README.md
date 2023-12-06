@@ -9,4 +9,7 @@
 
 ## 版本紀錄
 v1中有基本的任務一二功能
+
 v2則擴充了雙重CPU的功能
+
+merge sort version 則是取代原本的shell sort加速排序進程。

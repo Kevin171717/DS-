@@ -1,4 +1,4 @@
-// 11127116 ����E 11127147���f�� 
+// 11127116  11127147
 #include <iostream>     // cout, endl
 #include <fstream>      // open, is open
 #include <string>       // string
@@ -42,6 +42,8 @@ class JobList {
         } // while
     } // end reset
 
+    void swap(jobType& x, jobType& y) ;
+    void fastsort( int , int ) ;
     void showJob(jobType &);               // declaration: display a job on screen
     void sortByArrival();                  // declaration: sort all by arrival time
     void showTime();                       // declaration output time on screen
@@ -68,6 +70,7 @@ public:
     // ************************************** //
     // The above are primitive methods publicly available
     // ************************************** //
+
     void showall() ;               // declaration: show all on a screen
     void putAll( string );         // declaration: write all as a file
     bool getAll( int ,string );    // declaration: read all from a file
@@ -224,7 +227,7 @@ public:
 
     }                               // end constructor
     ~Simulation() {                 // destructor
-        // *隢銵???蝢?*
+        // *隢??銵?????蝢?*
     }       // end Destructor
 
     void SQF();                     // declaration: shortest queue first
@@ -428,12 +431,42 @@ void mergeSort(vector<jobType>& alist, int l, int r) {
     }
 }
 
+void JobList::swap(jobType& x, jobType& y) {
+    jobType temp = x;
+    x = y;
+    y = temp;
+} //
+
+void JobList::fastsort( int pivot, int right ) {
+    int nextpivot = pivot;
+    for ( int i = nextpivot + 1 ; i < right ; i ++ ) {
+        if ( alist[pivot].arrival > alist[i].arrival ||
+             ( alist[pivot].arrival == alist[i].arrival && alist[pivot].OID > alist[i].OID ) ) {
+            nextpivot ++ ;
+            swap(alist[nextpivot], alist[i]);
+        } // if
+
+    } // for
+    swap( alist[pivot], alist[nextpivot] ) ;
+
+    if ( nextpivot - pivot >= 2 )
+        fastsort( pivot, nextpivot ) ;
+    if ( right - nextpivot >= 3 )
+        fastsort( nextpivot + 1, right ) ;
+} // fastsort()
+
 void JobList::sortByArrival() {
     // ***
     // Perform Merge Sort
     // ***
+    int use;
+    cout << "type 1 to use mergeSort, else use fast sort" << endl ;
+    cin >> use ;
     clock_t start = clock(); // start reading
-    mergeSort(alist, 0, alist.size() - 1);
+    if ( use == 1 )
+        mergeSort(alist, 0, alist.size() - 1);
+    else
+        fastsort( 0, alist.size() ) ;
     clock_t stop = clock(); // stop reading
     sortTime = static_cast<double>(stop - start) / (CLOCKS_PER_SEC / 1000.0);
 }

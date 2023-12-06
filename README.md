@@ -13,3 +13,9 @@ v1中有基本的任務一二功能
 v2則擴充了雙重CPU的功能
 
 merge sort version 則是取代原本的shell sort加速排序進程。
+上圖是shell sort，下圖是merge sort
+![image](https://github.com/Kevin171717/DS-/assets/140044307/baa0d30c-e96a-4551-b1f7-4872391b879f)
+
+![image](https://github.com/Kevin171717/DS-/assets/140044307/10e6242b-afdc-4cf2-ac3b-d124a5acd49d)
+
+

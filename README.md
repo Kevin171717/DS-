@@ -7,5 +7,6 @@
 ### 說明題目
 依據任務一的sorted file，模擬cpu序列進行分類到abortjob和donejob中再計算成功率和平均delay，最後再輸入進output file中。
 
+## 版本紀錄
 v1中有基本的任務一二功能
 v2則擴充了雙重CPU的功能

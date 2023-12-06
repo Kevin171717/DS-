@@ -23,6 +23,7 @@ merge sort version 則是取代原本的shell sort加速排序進程。
 
 
 main則是把merge sort 與quick sort 合在一起
+
 ![image](https://github.com/Kevin171717/DS-/assets/140044307/f46dac63-9a2f-403a-af36-e8c471460ffb)
 
 有趣的是quick 的時間反而是最長的

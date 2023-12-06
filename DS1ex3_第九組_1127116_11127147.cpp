@@ -1,4 +1,4 @@
-// 11127116 ����E 11127147���f�� 
+// 11127116 曾詮淳 11127147黃伯竣
 #include <iostream>     // cout, endl
 #include <fstream>      // open, is open
 #include <string>       // string
